@@ -1,3 +1,5 @@
+import 'package:movie_app/domain/entities/movie_entity.dart';
+
 /// origin_country : ["US"]
 /// name : "Loki"
 /// backdrop_path : "/Afp8OhiO0Ajb3NPoCBvfu2pqaeO.jpg"
@@ -13,72 +15,86 @@
 /// popularity : 4400.596
 /// media_type : "tv"
 
-class MovieModel {
-  List<String>? originCountry;
-  String? name;
-  String? backdropPath;
-  List<int>? genreIds;
-  String? originalLanguage;
-  String? posterPath;
-  int? voteCount;
-  String? firstAirDate;
-  int? id;
-  double? voteAverage;
-  String? overview;
-  String? originalName;
-  double? popularity;
-  String? mediaType;
+class MovieModel extends MovieEntity {
+  final int id;
+  final bool video;
+  final int voteCount;
+  final double voteAverage;
+  final String title;
+  final String releaseDate;
+  final String originalLanguage;
+  final String originalTitle;
+  final List<int> genreIds;
+  final String backdropPath;
+  final bool adult;
+  final String overview;
+  final String posterPath;
+  final double popularity;
+  final String? mediaType;
 
   MovieModel({
-    this.originCountry,
-    this.name,
-    this.backdropPath,
-    this.genreIds,
-    this.originalLanguage,
-    this.posterPath,
-    this.voteCount,
-    this.firstAirDate,
-    this.id,
-    this.voteAverage,
-    this.overview,
-    this.originalName,
-    this.popularity,
-    this.mediaType});
+    required this.id,
+    required this.video,
+    required this.voteCount,
+    required this.voteAverage,
+    required this.title,
+    required this.releaseDate,
+    required this.originalLanguage,
+    required this.originalTitle,
+    required this.genreIds,
+    required this.backdropPath,
+    required this.adult,
+    required this.overview,
+    required this.posterPath,
+    required this.popularity,
+    required  this.mediaType,
+  }) : super(
+    id: id,
+    title: title,
+    backdropPath: backdropPath,
+    posterPath: posterPath,
+    releaseDate: releaseDate,
+    voteAverage: voteAverage,
+    overview: overview,
+  );
 
-  MovieModel.fromJson(dynamic json) {
-    originCountry = json["origin_country"] != null ? json["origin_country"].cast<String>() : [];
-    name = json["name"];
-    backdropPath = json["backdrop_path"];
-    genreIds = json["genre_ids"] != null ? json["genre_ids"].cast<int>() : [];
-    originalLanguage = json["original_language"];
-    posterPath = json["poster_path"];
-    voteCount = json["vote_count"];
-    firstAirDate = json["first_air_date"];
-    id = json["id"];
-    voteAverage = json["vote_average"];
-    overview = json["overview"];
-    originalName = json["original_name"];
-    popularity = json["popularity"];
-    mediaType = json["media_type"];
+  factory MovieModel.fromJson(Map<String, dynamic> json) {
+    return MovieModel(
+      popularity: json['popularity']?.toDouble() ?? 0.0,
+      voteCount: json['vote_count'],
+      video: json['video'],
+      posterPath: json['poster_path'],
+      id: json['id'],
+      adult: json['adult'],
+      backdropPath: json['backdrop_path'] ?? "",
+      originalLanguage: json['original_language'],
+      originalTitle: json['original_title'],
+      genreIds: json['genre_ids'].cast<int>(),
+      title: json['title'],
+      voteAverage: json['vote_average']?.toDouble() ?? 0.0,
+      overview: json['overview'],
+      releaseDate: json['release_date'],
+      mediaType: json['media_type'] ?? "",
+    );
   }
 
   Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    map["origin_country"] = originCountry;
-    map["name"] = name;
-    map["backdrop_path"] = backdropPath;
-    map["genre_ids"] = genreIds;
-    map["original_language"] = originalLanguage;
-    map["poster_path"] = posterPath;
-    map["vote_count"] = voteCount;
-    map["first_air_date"] = firstAirDate;
-    map["id"] = id;
-    map["vote_average"] = voteAverage;
-    map["overview"] = overview;
-    map["original_name"] = originalName;
-    map["popularity"] = popularity;
-    map["media_type"] = mediaType;
-    return map;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['video'] = this.video;
+    data['vote_count'] = this.voteCount;
+    data['vote_average'] = this.voteAverage;
+    data['title'] = this.title;
+    data['release_date'] = this.releaseDate;
+    data['original_language'] = this.originalLanguage;
+    data['original_title'] = this.originalTitle;
+    data['genre_ids'] = this.genreIds;
+    data['backdrop_path'] = this.backdropPath;
+    data['adult'] = this.adult;
+    data['overview'] = this.overview;
+    data['poster_path'] = this.posterPath;
+    data['popularity'] = this.popularity;
+    data['media_type'] = this.mediaType;
+    return data;
   }
-
 }
